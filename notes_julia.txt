@@ -1,0 +1,92 @@
+Edits for intro_to_julia.ipynb:
+
+In[12] + Out[12]:
+- NaN==NaN, NaN!=NaN, NaN-Inf gives:
+- (false, true, NaN)
+
+When looking at the “?”, it might be useful to mention that you have to type the “?” First, which brings you into the help state of Julia. *you can’t copy paste the command, because it will not read the “?” First and therefore will not put you in the “help?” state*
+
+In[30] - this does not work anymore. Pi just shows the pi sign, and e throws an error
+—> for e, the Euler number, you now have to type \euler + tab
+
+in[31] -  pi does say pi=3.14…. When you just assign it to a variable, but not when you print it using println
+
+in[32] - same thing
+
+in[35] - throwing an error for me
+—> deprecated, now varinfo()
+
+in[45] - search() doesn’t work for me, contains() only shows true or false
+—> deprecated. To show index, use findfirst( “ “, string), findlast(“ “, string), findall(“ “, string)
+
+out[46] - 2-element Vector{SubString{String}} instead of Array
+
+in[48] - did not work on my computer
+—> italics in Julia should be like *this*, but doesn’t do anything 
+
+in[52] - UndefVarError: `ismatch` not defined
+—> ismatch(regex, str) has been deprecated in favor of occursin(regex, str). Gives right answer
+
+in[58] - not working: “ERROR: MethodError: no method matching (Array{Float64})(::Int64, ::Int64)
+
+Closest candidates are:
+  (Array{T})(::LinearAlgebra.UniformScaling, ::Integer, ::Integer) where T”
+
+—> if you type Array{Float64}(undef,2,2,3) it does work, I do get different numbers than the example.
+
+in[70] - skips from a6 to a8, and then a7 at in[77]
+
+in[72] - ERROR: UndefVarError: `det` not defined, ERROR: UndefVarError: `trace` not defined, ERROR: UndefVarError: `diag` not defined.
+
+in[73] - ERROR: UndefVarError: `eigvals` not defined
+
+in[78] - ERROR: UndefVarError: `vecdot` not defined
+—> dot() instead of vecdot()
+
+—> for the 3 above: need to first load linear algebra package: “using LinearAlgebra”
+
+out[85] - description for output is different: “KeySet for a Dict{Any, Any} with 3 entries. Keys:”
+
+in[94] - error after “end”: ERROR: syntax: invalid escape sequence
+—> it does work when you type the function:
+ function print_word_list(words_array)
+           words_str = join(words_array, ", ", " and ")
+           println(words_str) *or println("We have: ", words_str, “!”)
+       end
+
+in[101] - is the a italic? Don’t know what that means in Julia, is not explained in this guide. Same with in[48]
+—>  println("a, b, c are: $a, $b, $c")
+
+in[108] - ERROR: DomainError with -1.0:
+sqrt will only return a complex result if called with a complex argument. Try sqrt(Complex(x)).
+Stacktrace:
+ [1] throw_complex_domainerror(f::Symbol, x::Float64)
+   @ Base.Math ./math.jl:33
+ [2] sqrt
+   @ ./math.jl:677 [inlined]
+ [3] sqrt
+   @ ./math.jl:1491 [inlined]
+ [4] f1(x::Int64)
+   @ Main ./REPL[121]:1
+ [5] top-level scope
+   @ REPL[123]:1
+
+
+in[112] - readstring() is deprecated. You can now use read( file, String), or readchomp(file)
+
+in[114] - keep getting the error: ERROR: UndefVarError: `writedlm` not defined. Also tried another way as mentioned in the Julia documentation (https://docs.julialang.org/en/v1/stdlib/DelimitedFiles/). So I also couldn’t test in[115-116]
+
+in[116] - Keep getting error, also tried changing the line to cp("./test-write.txt","./test-write-bk.txt”; remove_destination=true), but it still didn’t threw this error: 
+
+ERROR: MethodError: no method matching cp(::String, ::String; remove_destination::Bool)
+
+Closest candidates are:
+  cp(::AbstractString, ::AbstractString; force, follow_symlinks) got unsupported keyword argument "remove_destination"
+   @ Base file.jl:376
+
+in[114-116]—> use “using DelimitedFiles”, and it works
+
+In [120-122] - couldn’t install the pkg in the Julia terminal version, have to try once I get it set up in Jupyter
+
+in[126] - ERROR: MethodError: no method matching fieldnames(::Expr). Should still work according to Julia documentation
+—> fieldnames now operates only on types -> fieldnames(typeof(a)). Gives the answer (:head, :args), so slightly different than what is on Github
