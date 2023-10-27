@@ -1,5 +1,8 @@
 **Edits for julia.parexamples**
 
+
+For all examples: Go to the Julia Github page, download the master code as a zip file. Then go to Google Colab, on the left-hand bar, click the files icon. Click upload files, go to the Julia master zip, and from the zip select the .jl example files.
+
 01-hello-impl.jl :
 For all examples including MPI, these lines have to be the first couple of lines (only has to be done once before you start working with the MPI examples):
 
