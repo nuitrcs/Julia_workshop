@@ -1,4 +1,10 @@
-Edits for intro_to_julia.ipynb:
+**Edits for julia.parexamples**
+
+_01-hello-impl.jl_ 
+
+
+**Edits for intro_to_julia.ipynb:**
+
 
 In[12] + Out[12]:
 - NaN==NaN, NaN!=NaN, NaN-Inf gives:
