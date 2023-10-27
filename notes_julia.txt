@@ -1,6 +1,13 @@
 **Edits for julia.parexamples**
 
-_01-hello-impl.jl_ 
+01-hello-impl.jl :
+For all examples including MPI, these lines have to be the first couple of lines (only has to be done once before you start working with the MPI examples):
+
+import Pkg
+Pkg.add("MPI")
+using MPI 
+MPI.Init()
+
 
 
 **Edits for intro_to_julia.ipynb:**
