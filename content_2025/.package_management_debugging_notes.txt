@@ -1,0 +1,182 @@
+ME:
+
+## Creating a new project
+[tdm5510@quser33 my_cool_project]$ pwd
+/projects/a9009/tdm5510/workshops/julia_workshops/devel_2025/environment_toml_test/my_cool_project
+
+[tdm5510@quser33 my_cool_project]$ module load julia/1.11.4
+
+[tdm5510@quser33 my_cool_project]$ julia --project=.
+               _
+   _       _ _(_)_     |  Documentation: https://docs.julialang.org
+  (_)     | (_) (_)    |
+   _ _   _| |_  __ _   |  Type "?" for help, "]?" for Pkg help.
+  | | | | | | |/ _` |  |
+  | | |_| | | | (_| |  |  Version 1.11.4 (2025-03-10)
+ _/ |\__'_|_|_|\__'_|  |  Official https://julialang.org/ release
+|__/                   |
+
+(my_cool_project) pkg> add Plots
+  Installing known registries into `~/.julia`
+       Added `General` registry to ~/.julia/registries
+    Updating registry at `~/.julia/registries/General.toml`
+   Resolving package versions...
+   Installed libdecor_jll ───────────────── v0.2.2+0
+### ... output ... ###
+    Updating `/gpfs/projects/a9009/tdm5510/workshops/julia_workshops/devel_2025/environment_toml_test/my_cool_project/Project.toml`
+  [91a5bcdd] + Plots v1.41.1
+    Updating `/gpfs/projects/a9009/tdm5510/workshops/julia_workshops/devel_2025/environment_toml_test/my_cool_project/Manifest.toml`
+### ... output ... ###
+
+## Stuff is recorded in Manifest.toml and Project.toml
+[tdm5510@quser33 my_cool_project]$ ls /projects/a9009/tdm5510/workshops/julia_workshops/devel_2025/environment_toml_test/my_cool_project
+Manifest.toml  Project.toml
+
+## Packages are still installed in my home directory
+[tdm5510@quser33 my_cool_project]$ ls -lta ~/.julia/packages/
+total 78
+drwxrwxr-x   3 tdm5510 tdm5510 4096 Nov  7 14:30 SortingAlgorithms
+drwxrwxr-x   3 tdm5510 tdm5510 4096 Nov  7 14:30 StructUtils
+drwxrwxr-x   3 tdm5510 tdm5510 4096 Nov  7 14:30 Xorg_libXdmcp_jll
+### ... output ... ###
+
+## Can run script using that particular project
+[tdm5510@quser33 my_cool_project]$ julia --project=. test_plots_simple.jl 
+
+SOPHIE: 
+
+## Sophie can use my project since she can access the Project.toml and Manifest.toml
+[euz9115@quser33 ~]$ cd /projects/a9009/tdm5510/workshops/julia_workshops/devel_2025/environment_toml_test/my_cool_project
+
+## She has to install everything in her home directory
+[euz9115@quser33 my_cool_project]$ julia --project=.
+### ... output ... ###
+julia> using Pkg
+
+julia> Pkg.status()
+## This recognized that some stuff was in Project.toml and Manifest.toml
+## But needed to be installed (in Sophie's /home directory)
+
+julia> Pkg.instantiate()
+## This installed all the stuff with the same version numbers 
+
+## Sophie ran my script and it worked
+[euz9115@quser33 my_cool_project]$ julia --project=. test_plots_simple.jl 
+
+## Sophie tried to add kernel (IJulia which has Conda dependency)
+## which for some reason did not work 
+## Update: it worked after Sophie did build Conda IJulia in 
+## Pkg interactive prompt within Julia 
+
+ME:
+
+## But then it works for me 
+[tdm5510@quser33 my_cool_project]$ julia --project=. 
+               _
+   _       _ _(_)_     |  Documentation: https://docs.julialang.org
+  (_)     | (_) (_)    |
+   _ _   _| |_  __ _   |  Type "?" for help, "]?" for Pkg help.
+  | | | | | | |/ _` |  |
+  | | |_| | | | (_| |  |  Version 1.11.4 (2025-03-10)
+ _/ |\__'_|_|_|\__'_|  |  Official https://julialang.org/ release
+|__/                   |
+
+julia> using Pkg
+
+julia> Pkg.status()
+Status `/gpfs/projects/a9009/tdm5510/workshops/julia_workshops/devel_2025/environment_toml_test/my_cool_project/Project.toml`
+→ [8f4d0f93] Conda v1.10.3
+→ [7073ff75] IJulia v1.32.1
+  [91a5bcdd] Plots v1.41.1
+Info Packages marked with → are not downloaded, use `instantiate` to download
+
+julia> Pkg.instantiate()
+   Installed VersionParsing ─ v1.3.0
+   Installed ZeroMQ_jll ───── v4.3.6+0
+   Installed Conda ────────── v1.10.3
+   Installed libsodium_jll ── v1.0.21+0
+   Installed ZMQ ──────────── v1.5.1
+   Installed IJulia ───────── v1.32.1
+  Downloaded artifact: libsodium
+  Downloaded artifact: ZeroMQ
+    Building Conda ─→ `~/.julia/scratchspaces/44cfe95a-1eb2-52ea-b672-e2afdf69b78f/8f06b0cfa4c514c7b9546756dbae91fcfbc92dc9/build.log`
+    Building IJulia → `~/.julia/scratchspaces/44cfe95a-1eb2-52ea-b672-e2afdf69b78f/72e44ca89ce7f50eabbe9f4ac3594d51b8a185e9/build.log`
+Precompiling project...
+  7 dependencies successfully precompiled in 35 seconds. 176 already precompiled.
+
+## Me creating a kernel for this project
+
+julia> using IJulia
+
+julia> installkernel("Julia 1.11.4 - my_cool_project", "--project=/projects/a9009/tdm5510/workshops/julia_workshops/devel_2025/environment_toml_test/my_cool_project")
+[ Info: Installing 'Julia 1.11.4 - my_cool_project 1.11' kernelspec in /home/tdm5510/.local/share/jupyter/kernels/julia-1.11.4---my_cool_project-1.11
+"/home/tdm5510/.local/share/jupyter/kernels/julia-1.11.4---my_cool_project-1.11"
+
+julia>
+
+## Now I will go to QoD Jupyter and use the kernel
+## Had to make a small edit to the Jupyter app so that this would work
+## But the kernel does work and returns this:
+using Pkg
+Pkg.status()
+
+Status `/projects/a9009/tdm5510/workshops/julia_workshops/devel_2025/environment_toml_test/my_cool_project/Project.toml`
+  [8f4d0f93] Conda v1.10.3
+  [7073ff75] IJulia v1.32.1
+  [91a5bcdd] Plots v1.41.1
+
+
+STUDENTS:
+
+## What the students should do
+[tdm5510@quser33 ~]$ cd /projects/a9009/tdm5510/workshops/julia_workshops/devel_2025/environment_toml_test/my_cool_project
+
+[tdm5510@quser33 my_cool_project]$ julia --project=. 
+
+julia> using Pkg
+
+julia> Pkg.status()
+## This recognized that some stuff was in Project.toml and Manifest.toml
+## But needed to be installed (in Sophie's /home directory)
+
+julia> Pkg.instantiate()
+## This installed all the stuff with the same version numbers 
+
+julia> using IJulia
+
+julia> installkernel("Julia 1.11.4 - my_cool_project", "--project=/projects/a9009/tdm5510/workshops/julia_workshops/devel_2025/environment_toml_test/my_cool_project")
+[ Info: Installing 'Julia 1.11.4 - my_cool_project 1.11' kernelspec in /home/tdm5510/.local/share/jupyter/kernels/julia-1.11.4---my_cool_project-1.11
+"/home/tdm5510/.local/share/jupyter/kernels/julia-1.11.4---my_cool_project-1.11"
+
+
+
+## If they wanted to make their own different project
+[tdm5510@quser33 environment_toml_test]$ mkdir my_new_cooler_project
+[tdm5510@quser33 environment_toml_test]$ cd my_new_cooler_project/
+[tdm5510@quser33 my_new_cooler_project]$ julia --project=.
+               _
+   _       _ _(_)_     |  Documentation: https://docs.julialang.org
+  (_)     | (_) (_)    |
+   _ _   _| |_  __ _   |  Type "?" for help, "]?" for Pkg help.
+  | | | | | | |/ _` |  |
+  | | |_| | | | (_| |  |  Version 1.11.4 (2025-03-10)
+ _/ |\__'_|_|_|\__'_|  |  Official https://julialang.org/ release
+|__/                   |
+
+(my_new_cooler_project) pkg> 
+
+## Or they can use the default one that's there when you load julia 
+[tdm5510@quser33 my_new_cooler_project]$ julia
+               _
+   _       _ _(_)_     |  Documentation: https://docs.julialang.org
+  (_)     | (_) (_)    |
+   _ _   _| |_  __ _   |  Type "?" for help, "]?" for Pkg help.
+  | | | | | | |/ _` |  |
+  | | |_| | | | (_| |  |  Version 1.11.4 (2025-03-10)
+ _/ |\__'_|_|_|\__'_|  |  Official https://julialang.org/ release
+|__/                   |
+
+(@v1.11) pkg> 
+
+
+
