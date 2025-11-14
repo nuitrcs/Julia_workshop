@@ -1,0 +1,56 @@
+## Python packages
+numpy 
+numba
+statsmodels 
+pandas 
+jupyter 
+ipykernel 
+
+module purge
+module load mamba/24.3.0
+eval "$('/hpc/software/mamba/24.3.0/bin/conda' 'shell.bash' 'hook' 2> /dev/null)"
+source "/hpc/software/mamba/24.3.0/etc/profile.d/mamba.sh"
+mamba create --prefix=./my_cool_python_project -c conda-forge python numpy numba statsmodels pandas matplotlib jupyter ipykernel
+mamba activate ./my_cool_python_project
+python -m ipykernel install --user --name my_cool_python_project_py313 --display-name "Python 3.13 (my_cool_python_project_py313)"
+
+
+## Julia packages
+Pkg
+Conda
+IJulia
+Plots 
+GLM
+DataFrames 
+BenchmarkTools
+CSV
+Query 
+
+module purge
+module load julia/1.11.4
+cd <my_cool_project>
+julia --project=.
+using Pkg
+Pkg.status()
+]
+add Pkg GLM Dataframes BenchmarkTools CSV Query 
+
+## IMDB datasets
+
+## General metadata 
+https://developer.imdb.com/non-commercial-datasets/#imdb-non-commercial-datasets
+
+## Basics metadata
+https://developer.imdb.com/non-commercial-datasets/#titlebasicstsvgz
+## Basics data
+https://datasets.imdbws.com/title.basics.tsv.gz
+
+## Crew metadata
+https://developer.imdb.com/non-commercial-datasets/#titlecrewtsvgz
+## Crew data 
+https://datasets.imdbws.com/title.crew.tsv.gz
+
+
+
+
+
